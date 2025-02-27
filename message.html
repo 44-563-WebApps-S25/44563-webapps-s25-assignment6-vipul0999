@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vipul Message Cost</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" 
+          integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" 
+          integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+      </head>
+<body class="container mt-5">
+
+<h2 class="text-primary">Vipul message cost</h2>
+
+<form class="mb-3">
+    <label for="basicprice">Enter cost per letter</label>
+    <input type="number" id="basicprice" value="0.50">
+    <br>
+
+    <label for="breakAt">Enter the length needed for the discount</label>
+    <input type="number" id="breakAt" value="9">
+    <br>
+
+    <label for="discount">Enter the discount percent</label>
+    <input type="number" id="discount" value="10">
+    <br>
+
+    <input type="button" onclick="amounts()" value="Show total">
+</form>
+
+<p>Totals will be displayed here.</p>
+<p id="result" class="alert alert-info"></p>
+
+<form>
+    <input type="radio" name="operation" value="times" onclick="chooseOp()"> Product <br>
+    <input type="radio" name="operation" value="add" onclick="chooseOp()"> Sum <br>
+    <input type="radio" name="operation" value="mod" onclick="chooseOp()"> Modulus <br>
+</form>
+
+<p>Operation result will be displayed here.</p>
+<p id="operationResult"></p>
+
+<script>
+    function amounts() {
+        let price = parseFloat(document.getElementById("basicprice").value);
+        let breakAt = parseInt(document.getElementById("breakAt").value);
+        let discount = parseFloat(document.getElementById("discount").value) / 100;
+        let myResults = "";
+
+        for (let size = breakAt - 3; size <= breakAt + 3; size++) {
+            let cost = 0;
+            for (let i = 1; i <= size; i++) {
+                cost += i < breakAt ? price : price * (1 - discount);
+            }
+            myResults += `size ${size} is ${cost.toFixed(2)}; `;
+        }
+
+        document.getElementById("result").innerHTML = "Totals are: " + myResults;
+    }
+
+    function chooseOp() {
+        let price = parseFloat(document.getElementById("basicprice").value);
+        let breakAt = parseInt(document.getElementById("breakAt").value);
+        let operation = document.querySelector('input[name="operation"]:checked').value;
+        let output = "";
+
+        switch (operation) {
+            case "times":
+                output = `${price} * ${breakAt} = ${price * breakAt}`;
+                break;
+            case "add":
+                output = `${price} + ${breakAt} = ${price + breakAt}`;
+                break;
+            case "mod":
+                output = `${breakAt} % ${price} = ${breakAt % price}`;
+                break;
+        }
+
+        document.getElementById("operationResult").innerHTML = output;
+    }
+</script>
+
+</body>
+</html> 
